@@ -8,7 +8,11 @@
 //  
 static void gotosleep(int pin, void *arg){
   esp_sleep_enable_ext0_wakeup(pin, 1);		// 1== HIGH (Sensor Open)
-
+  
+  // Easy way to do it via a timer instead:
+  // esp_sleep_enable_timer_wakeup(TIME_TO_SLEEP_uS)
+  // esp_deep_sleep_start()
+  
   printf("All done.  Going to sleep in ");
   for(int i=5; i>0; --i){
     printf("%d...\n", i);
@@ -89,6 +93,8 @@ enum mgos_app_init_result mgos_app_init(void) {
   printf("RTC GPIO13 read: %d\n", rtc_gpio_get_level(13));
 
   mgos_set_timer(2000, MGOS_TIMER_REPEAT, sensor_timer_cb, NULL);
+  
+  
 
   return MGOS_APP_INIT_SUCCESS;
 }
